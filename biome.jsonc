@@ -2,5 +2,13 @@
   "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "extends": [
     "ultracite"
-  ]
+  ],
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    },
+    "globals": [
+      "Bun"
+    ]
+  }
 }
