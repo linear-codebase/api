@@ -33,18 +33,22 @@ export const auth = new Elysia({ name: "auth" })
     },
   }))
   .use(bearerPlugin())
-  .macro({
-    isAuth: {
-      resolve: async ({ bearer, jwt }) => {
-        const payload = await jwt.access.verify(bearer)
+  .macro("auth", {
+    resolve: async ({ bearer, jwt }) => {
+      const payload = await jwt.access.verify(bearer)
 
-        if (!payload) {
-          throw new UnauthorizedError("Invalid or expired token")
-        }
+      if (!payload) {
+        throw new UnauthorizedError("Invalid or expired token")
+      }
 
-        return {
-          user: payload,
-        }
-      },
+      return {
+        userId: payload.sub,
+        getCurrentUser: async () => ({
+          id: payload.sub,
+          name: "John Doe",
+          email: "john.doe@example.com",
+          role: "admin",
+        }),
+      }
     },
   })
