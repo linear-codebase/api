@@ -1,7 +1,7 @@
 import { fromTypes, openapi } from "@elysiajs/openapi"
 import chalk from "chalk"
 import { Elysia } from "elysia"
-import { env } from "./lib/env"
+import { env } from "@/shared/env"
 
 const app = new Elysia()
   .use(

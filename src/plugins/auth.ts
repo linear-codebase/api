@@ -1,27 +1,27 @@
 import { bearer as bearerPlugin } from "@elysiajs/bearer"
 import { jwt as jwtPlugin } from "@elysiajs/jwt"
 import { Elysia, t } from "elysia"
+import { db } from "@/database/client"
 import { UnauthorizedError } from "@/errors/unauthorized"
-import { env } from "@/lib/env"
-
-const jwtOptionsTemplate = {
-  secret: env.JWT_SECRET,
-  schema: t.Object({
-    sub: t.String(),
-  }),
-}
+import { env } from "@/shared/env"
 
 export const auth = new Elysia({ name: "auth" })
-  .use(
+  .state("jwtPattern", {
+    secret: env.JWT_SECRET,
+    schema: t.Object({
+      sub: t.String(),
+    }),
+  })
+  .use(({ store }) =>
     jwtPlugin({
-      ...jwtOptionsTemplate,
+      ...store.jwtPattern,
       name: "access",
       exp: "15min",
     })
   )
-  .use(
+  .use(({ store }) =>
     jwtPlugin({
-      ...jwtOptionsTemplate,
+      ...store.jwtPattern,
       name: "refresh",
       exp: "30d",
     })
@@ -43,12 +43,10 @@ export const auth = new Elysia({ name: "auth" })
 
       return {
         userId: payload.sub,
-        getCurrentUser: async () => ({
-          id: payload.sub,
-          name: "John Doe",
-          email: "john.doe@example.com",
-          role: "admin",
-        }),
+        getCurrentUser: async () =>
+          await db.query.users.findFirst({
+            where: (fields, { eq }) => eq(fields.id, payload.sub),
+          }),
       }
     },
   })
