@@ -2,20 +2,26 @@
   "name": "server",
   "version": "1.0.50",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "bun run --watch src/index.ts"
+    "dev": "bun run --watch src/index.ts",
+    "db:generate": "bun --bun drizzle-kit generate",
+    "db:migrate": "bun --bun drizzle-kit migrate",
+    "db:push": "bun --bun drizzle-kit push",
+    "db:studio": "bun --bun drizzle-kit studio"
   },
   "dependencies": {
     "@elysiajs/bearer": "^1.4.1",
     "@elysiajs/jwt": "^1.4.0",
     "@elysiajs/openapi": "^1.4.11",
     "chalk": "^5.6.2",
+    "drizzle-orm": "^0.44.6",
     "elysia": "latest",
+    "pg": "^8.16.3",
     "zod": "^4.1.12"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.6",
     "bun-types": "latest",
+    "drizzle-kit": "^0.31.5",
     "lefthook": "^2.0.0",
     "lint-staged": "^16.2.6",
     "ultracite": "5.6.4"
