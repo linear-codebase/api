@@ -6,7 +6,6 @@ export class UnauthorizedError extends Error {
     this.name = "UnauthorizedError"
   }
 
-  // Optional: Custom response format
   toResponse() {
     return {
       success: false,
