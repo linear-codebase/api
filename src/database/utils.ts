@@ -16,9 +16,7 @@ type Spread<
   Mode extends "select" | "insert" | undefined,
 > = T extends TObject<infer Fields>
   ? {
-      [K in keyof Fields as K extends "id" | "createdAt" | "updatedAt"
-        ? never
-        : K]: Fields[K]
+      [K in keyof Fields]: Fields[K]
     }
   : T extends Table
     ? Mode extends "select"

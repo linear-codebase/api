@@ -10,7 +10,13 @@ export const db = {
         email: t.String({
           format: "email",
           error: "Invalid email address",
+          pattern: "^[a-zA-Z0-9._%+-]+@linear\\.net\\.br$",
           examples: ["you@linear.net.br"],
+        }),
+        firstName: t.String({
+          minLength: 2,
+          error: "Invalid first name",
+          examples: ["John", "Jane"],
         }),
       }),
     },
