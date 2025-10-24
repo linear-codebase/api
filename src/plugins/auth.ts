@@ -2,26 +2,28 @@ import { bearer as bearerPlugin } from "@elysiajs/bearer"
 import { jwt as jwtPlugin } from "@elysiajs/jwt"
 import { Elysia, t } from "elysia"
 import { db } from "@/database/client"
-import { UnauthorizedError } from "@/errors/unauthorized"
 import { env } from "@/shared/env"
+import { UnauthorizedError } from "@/shared/http/errors/unauthorized"
+
+export const jwtPattern = {
+  secret: env.JWT_SECRET,
+  schema: t.Object({
+    sub: t.String(),
+  }),
+}
 
 export const auth = new Elysia({ name: "auth" })
-  .state("jwtPattern", {
-    secret: env.JWT_SECRET,
-    schema: t.Object({
-      sub: t.String(),
-    }),
-  })
-  .use(({ store }) =>
+  .decorate("jwtPattern", jwtPattern)
+  .use(
     jwtPlugin({
-      ...store.jwtPattern,
+      ...jwtPattern,
       name: "access",
       exp: "15min",
     })
   )
-  .use(({ store }) =>
+  .use(
     jwtPlugin({
-      ...store.jwtPattern,
+      ...jwtPattern,
       name: "refresh",
       exp: "30d",
     })
