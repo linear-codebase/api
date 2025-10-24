@@ -3,6 +3,7 @@
   "version": "1.0.50",
   "scripts": {
     "dev": "bun run --watch src/index.ts",
+    "dev:email": "email dev",
     "db:generate": "bun --bun drizzle-kit generate",
     "db:migrate": "bun --bun drizzle-kit migrate",
     "db:push": "bun --bun drizzle-kit push",
@@ -17,6 +18,7 @@
     "drizzle-typebox": "^0.3.3",
     "elysia": "latest",
     "pg": "^8.16.3",
+    "resend": "^6.2.2",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -25,6 +27,7 @@
     "drizzle-kit": "^0.31.5",
     "lefthook": "^2.0.0",
     "lint-staged": "^16.2.6",
+    "react-email": "4.3.2",
     "ultracite": "5.6.4"
   },
   "module": "src/index.js",
