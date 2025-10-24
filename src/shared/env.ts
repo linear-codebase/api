@@ -9,6 +9,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().default(DEFAULT_PORT),
   DATABASE_URL: z.url().startsWith("postgresql://"),
   JWT_SECRET: z.string(),
+  RESEND_API_KEY: z.string(),
 })
 
 export const env = envSchema.parse(Bun.env)
