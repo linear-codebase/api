@@ -2,6 +2,7 @@ import { fromTypes, openapi } from "@elysiajs/openapi"
 import chalk from "chalk"
 import { Elysia } from "elysia"
 import { env } from "@/shared/env"
+import { auth } from "./modules/auth"
 
 const app = new Elysia()
   .use(
@@ -14,8 +15,10 @@ const app = new Elysia()
     if (code === "VALIDATION") {
       return error.detail(error.message)
     }
+    return error
   })
   .get("/", () => "Hello Elysia")
+  .use(auth)
   .listen(env.PORT)
 
 // biome-ignore lint/suspicious/noConsole: debug elysia server
